@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, SITE_TITLE } from '../consts';
+---
+
+<BaseLayout
+  title="Photo Notice"
+  description="How Kitsap Fathers Group handles consent for event photos."
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="text-3xl font-extrabold tracking-tight">Photo Notice</h1>
+    <p class="mt-2 text-[0.95rem] text-slate-700">Last updated: November 4, 2026</p>
+    <div class="prose-links mt-4 space-y-4 leading-relaxed text-slate-800">
+      <p>
+        We sometimes take photos at {SITE_TITLE} events to share recaps and welcome
+        new dads. Here is how consent works:
+      </p>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>
+          <span class="font-semibold">We ask first.</span> Photographers check with
+          the people in frame before shooting, and anyone — adult or child — can
+          decline, no questions asked.
+        </li>
+        <li>
+          <span class="font-semibold">Kids get extra care.</span> We photograph
+          children only with a parent or guardian&apos;s okay, and never publish
+          children&apos;s names.
+        </li>
+        <li>
+          <span class="font-semibold">You can opt out anytime.</span> Tell any
+          volunteer at an event, or email
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> afterward, and we
+          will keep you out of frame or remove a published photo promptly.
+        </li>
+      </ul>
+      <p>
+        Photos on this site are used only to document group life — never sold, and
+        never used for advertising without separate written permission.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

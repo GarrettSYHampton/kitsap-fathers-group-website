@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Brand blues — all verified WCAG AA (4.5:1+) for their usage:
+     - brand-800/900 on white for text and links
+     - white text on brand-800/900/950 for filled surfaces */
+  --color-brand-100: #dbe9f5;
+  --color-brand-700: #17517f;
+  --color-brand-800: #124163;
+  --color-brand-900: #0d3350;
+  --color-brand-950: #081f31;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #fff;
+  color: #0f172a; /* slate-900 on white: 17.85:1 */
+}
+
+/* Visible keyboard focus everywhere (WCAG 2.4.7). */
+:focus-visible {
+  outline: 3px solid #124163;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Content links: always underlined so color is not the only signal. */
+.prose-links a {
+  color: #124163; /* brand-800 on white: 10.70:1 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-links a:hover {
+  color: #0d3350;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

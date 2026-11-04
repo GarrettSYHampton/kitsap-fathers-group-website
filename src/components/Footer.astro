@@ -1,0 +1,82 @@
+---
+import {
+  SITE_TITLE,
+  CONTACT_EMAIL,
+  FACEBOOK_GROUP_URL,
+  PRIMARY_NAV,
+  LEGAL_NAV,
+  SPONSOR_DISCLOSURE,
+} from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-950 text-white">
+  <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <p class="text-lg font-bold">{SITE_TITLE}</p>
+        <p class="mt-2 max-w-xs text-[0.95rem] leading-relaxed text-slate-200">
+          By fathers, for fathers — meetups, resources, and community across Kitsap County.
+        </p>
+        <p class="mt-3 text-[0.95rem]">
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            class="text-white underline underline-offset-4 hover:text-brand-100"
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+        <p class="mt-2 text-[0.95rem]">
+          <a
+            href={FACEBOOK_GROUP_URL}
+            target="_blank"
+            rel="noopener"
+            class="text-white underline underline-offset-4 hover:text-brand-100"
+          >
+            Facebook Group <span aria-hidden="true">↗</span>
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </p>
+      </div>
+
+      <nav aria-label="Footer">
+        <p class="text-sm font-bold uppercase tracking-wide text-brand-100">Explore</p>
+        <ul class="mt-3 space-y-2 text-[0.95rem]">
+          {
+            PRIMARY_NAV.map((link) => (
+              <li>
+                <a href={link.href} class="text-white underline-offset-4 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <nav aria-label="Legal">
+        <p class="text-sm font-bold uppercase tracking-wide text-brand-100">Legal</p>
+        <ul class="mt-3 space-y-2 text-[0.95rem]">
+          {
+            LEGAL_NAV.map((link) => (
+              <li>
+                <a href={link.href} class="text-white underline-offset-4 hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <p class="mt-8 border-t border-white/25 pt-5 text-sm leading-relaxed text-slate-200">
+      <span class="font-semibold text-white">Fiscal sponsor disclosure:</span> {SPONSOR_DISCLOSURE}
+    </p>
+
+    <p class="mt-4 text-sm text-slate-200">
+      © 2023–{year} {SITE_TITLE}. All rights reserved.
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, FACEBOOK_GROUP_URL } from '../consts';
+---
+
+<BaseLayout
+  title="Volunteer"
+  description="Small volunteer roles with Kitsap Fathers Group — greeting, setup, photos, and more."
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="text-3xl font-extrabold tracking-tight">Volunteer</h1>
+    <div class="prose-links mt-4 space-y-4 leading-relaxed text-slate-800">
+      <p>
+        Kitsap Fathers Group runs on small contributions of time. Most roles take an
+        hour or less at a single event — greeting dads at the door, helping with
+        setup, taking photos (with consent — see our
+        <a href="/photo-notice">photo notice</a>), or sharing an event with a friend.
+      </p>
+      <p>
+        Online signup is coming soon. Until then, the fastest way to raise your hand
+        is to post in our
+        <a href={FACEBOOK_GROUP_URL} target="_blank" rel="noopener">
+          Facebook Group<span class="sr-only"> (opens in a new tab)</span>
+        </a>
+        or email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Example micro-roles</h2>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>Door greeter — welcome dads and check names at meetups.</li>
+        <li>Setup and teardown helper — chairs, signs, and supplies.</li>
+        <li>Photographer — capture the event for recaps (consent required).</li>
+        <li>Connector — invite one dad who hasn&apos;t been before.</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
