@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Base styles: readable mobile-first type, visible focus, skip link. */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-render-spacing: optimizeLegibility;
+}
+
+/* Comfortable measure for prose on all screens */
+.prose-measure {
+  max-width: 65ch;
+}
+
+/* High-visibility keyboard focus for WCAG 2.2 AA */
+:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip-to-content link: hidden until focused */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 50;
+  background: #1e3a8a;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease-in-out;
+}
+
+.skip-link:focus-visible {
+  top: 0;
+  outline-color: #ffffff;
+  color: #ffffff;
+}
