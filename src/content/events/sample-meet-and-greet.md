@@ -3,6 +3,7 @@ title: "Sample: Saturday Meet and Greet"
 description: "Placeholder entry showing the event card layout. Replace with a real upcoming meetup before relaunch."
 date: "Saturday, December 12, 2026 · 10:00 AM"
 location: "Sample Park, Bremerton, WA"
+rsvpNote: "Just show up — no RSVP needed for this one."
 ---
 
 This is a **placeholder event** for the KFGW-3 scaffold. It exists so the
