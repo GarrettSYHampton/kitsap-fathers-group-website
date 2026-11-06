@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const partners = await getCollection('partners');
+---
+
+<BaseLayout
+  title="Partners"
+  description="Community partners working alongside Kitsap Fathers Group."
+>
+  <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <h1 class="text-3xl font-extrabold tracking-tight">Partners</h1>
+    <p class="mt-3 max-w-2xl leading-relaxed text-slate-800">
+      Local organizations we work alongside to support dads and families. Partner
+      logos appear here only with written permission; entries below are placeholders
+      while permissions are confirmed for relaunch.
+    </p>
+
+    {
+      partners.length === 0 ? (
+        <p class="mt-6 leading-relaxed text-slate-800">
+          No partners are listed yet — check back soon.
+        </p>
+      ) : (
+        <ul class="mt-6 grid gap-5 sm:grid-cols-2">
+          {partners.map((partner) => (
+            <li class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+              <h2 class="text-lg font-bold">{partner.data.title}</h2>
+              {partner.data.description && (
+                <p class="mt-2 leading-relaxed text-slate-800">{partner.data.description}</p>
+              )}
+              {partner.data.category && (
+                <p class="mt-3 text-[0.95rem] text-slate-800">
+                  <span class="font-semibold">Focus:</span> {partner.data.category}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>

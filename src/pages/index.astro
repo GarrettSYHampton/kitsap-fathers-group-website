@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { FACEBOOK_GROUP_URL } from '../consts';
+---
+
+<BaseLayout
+  title="Home"
+  description="Kitsap Fathers Group — meetups, local resources, and community for dads across Kitsap County."
+>
+  <div class="bg-brand-900 text-white">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+      <h1 class="max-w-2xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+        Kitsap dads, stronger together.
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-brand-100">
+        We help fathers across Kitsap County find community, practical resources, and
+        low-key ways to get involved — from weekend meetups to trusted local referrals.
+      </p>
+      <p class="mt-6 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/events"
+          class="inline-block rounded-md bg-white px-5 py-3 text-center font-bold text-brand-900 hover:bg-brand-100"
+        >
+          See upcoming events
+        </a>
+        <a
+          href="/resources"
+          class="inline-block rounded-md border-2 border-white px-5 py-3 text-center font-bold text-white hover:bg-white/10"
+        >
+          Browse resources
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <section aria-labelledby="what-we-do" class="prose-links">
+      <h2 id="what-we-do" class="text-2xl font-bold tracking-tight text-slate-900">
+        What we do
+      </h2>
+      <dl class="mt-6 grid gap-6 sm:grid-cols-3">
+        <div class="border-t-4 border-brand-800 pt-4">
+          <dt class="text-lg font-bold text-slate-900">Meet up</dt>
+          <dd class="mt-2 leading-relaxed text-slate-800">
+            Family-friendly gatherings and dads&apos; nights out around Bremerton, Port
+            Orchard, Silverdale, and beyond. <a href="/events">Find a meetup</a>.
+          </dd>
+        </div>
+        <div class="border-t-4 border-brand-800 pt-4">
+          <dt class="text-lg font-bold text-slate-900">Share resources</dt>
+          <dd class="mt-2 leading-relaxed text-slate-800">
+            A short list of vetted local help — housing, jobs, parenting, and family
+            activities. <a href="/resources">Browse resources</a>.
+          </dd>
+        </div>
+        <div class="border-t-4 border-brand-800 pt-4">
+          <dt class="text-lg font-bold text-slate-900">Connect dads</dt>
+          <dd class="mt-2 leading-relaxed text-slate-800">
+            Our Facebook Group is where day-to-day conversation happens.
+            <a href={FACEBOOK_GROUP_URL} target="_blank" rel="noopener">
+              Join the Facebook Group<span class="sr-only"> (opens in a new tab)</span>
+            </a>.
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="get-involved" class="prose-links mt-12">
+      <h2 id="get-involved" class="text-2xl font-bold tracking-tight text-slate-900">
+        Get involved
+      </h2>
+      <ul class="mt-4 space-y-3 leading-relaxed text-slate-800">
+        <li>
+          <a href="/volunteer" class="font-semibold">Volunteer a little time</a>
+          — micro-roles like greeting at the door or sharing photos, no big commitment.
+        </li>
+        <li>
+          <a href="/partners" class="font-semibold">Meet our community partners</a>
+          — local organizations we work alongside, from KCR to the YMCA.
+        </li>
+        <li>
+          <a href="/support" class="font-semibold">Support the group</a>
+          — contributions go through our fiscal sponsor, with full disclosure.
+        </li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

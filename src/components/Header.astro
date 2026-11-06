@@ -1,0 +1,84 @@
+---
+import { SITE_TITLE, SITE_TAGLINE, PRIMARY_NAV, FACEBOOK_GROUP_URL } from '../consts';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(href + '/');
+}
+---
+
+<header class="border-b border-slate-200 bg-white">
+  <div class="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6">
+    <a
+      href="/"
+      class="mr-auto py-2 text-lg font-extrabold tracking-tight text-brand-900"
+      aria-label={`${SITE_TITLE} — home`}
+    >
+      {SITE_TITLE}
+    </a>
+
+    <button
+      id="menu-button"
+      type="button"
+      class="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-900 md:hidden"
+      aria-expanded="false"
+      aria-controls="primary-menu"
+    >
+      <span aria-hidden="true" id="menu-icon-closed">☰</span>
+      <span class="sr-only">Menu</span>
+    </button>
+
+    <nav id="primary-menu" aria-label="Primary" class="hidden w-full md:block md:w-auto">
+      <ul class="flex flex-col gap-1 border-t border-slate-200 py-2 md:flex-row md:flex-wrap md:items-center md:gap-1 md:border-t-0 md:py-0">
+        {
+          PRIMARY_NAV.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class:list={[
+                  'block rounded-md px-3 py-2.5 text-[0.95rem] font-medium underline-offset-4',
+                  isActive(link.href)
+                    ? 'bg-brand-100 font-semibold text-brand-900 underline'
+                    : 'text-slate-800 hover:bg-slate-100 hover:underline',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="md:ml-2">
+          <a
+            href={FACEBOOK_GROUP_URL}
+            target="_blank"
+            rel="noopener"
+            class="block rounded-md border border-brand-800 px-3 py-2.5 text-[0.95rem] font-semibold text-brand-800 hover:bg-brand-100"
+          >
+            Facebook Group <span aria-hidden="true">↗</span>
+            <span class="sr-only">(opens in a new tab)</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <p class="sr-only">{SITE_TAGLINE}</p>
+</header>
+
+<script>
+  const button = document.getElementById('menu-button');
+  const menu = document.getElementById('primary-menu');
+  const icon = document.getElementById('menu-icon-closed');
+  button?.addEventListener('click', () => {
+    if (!menu) return;
+    const isHidden = menu.classList.toggle('hidden');
+    button.setAttribute('aria-expanded', String(!isHidden));
+    if (icon) icon.textContent = isHidden ? '☰' : '✕';
+  });
+</script>

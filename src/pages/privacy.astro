@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, SITE_TITLE } from '../consts';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Privacy Policy for the Kitsap Fathers Group website — what we collect and why."
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="text-3xl font-extrabold tracking-tight">Privacy Policy</h1>
+    <p class="mt-2 text-[0.95rem] text-slate-700">Last updated: November 4, 2026</p>
+    <div class="prose-links mt-4 space-y-4 leading-relaxed text-slate-800">
+      <p>
+        {SITE_TITLE} keeps data collection to a minimum. This page describes what
+        this website collects today and how to reach us with questions.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">What we collect</h2>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>
+          <span class="font-semibold">Almost nothing on this site.</span> These
+          pages have no accounts, no forms, and no analytics — browsing does not
+          send us your name, email, or behavior.
+        </li>
+        <li>
+          <span class="font-semibold">Email you send us.</span> If you email us, we
+          receive your address and message so we can reply. We do not sell it or
+          add you to a mailing list without your permission.
+        </li>
+        <li>
+          <span class="font-semibold">Outside services.</span> Links to Facebook,
+          our fiscal sponsor, and embedded tools each have their own privacy
+          policies that govern what they collect.
+        </li>
+      </ul>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Photos</h2>
+      <p>
+        Event photography is handled under our <a href="/photo-notice">photo notice</a>.
+        If you appear in a photo on this site and want it removed, email us and we
+        will take it down promptly.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Your choices</h2>
+      <p>
+        You can browse anonymously, block cookies in your browser (this site sets
+        none of its own), and ask us at any time what personal information we hold
+        about you. To request a correction or deletion, email
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Changes</h2>
+      <p>
+        When we add email signup, event RSVP, or other features, this policy will be
+        updated first to describe exactly what they collect. The date above always
+        reflects the latest version.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

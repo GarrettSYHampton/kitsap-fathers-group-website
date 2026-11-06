@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTACT_EMAIL, SITE_TITLE } from '../consts';
+---
+
+<BaseLayout
+  title="Terms of Use"
+  description="Terms of Use for the Kitsap Fathers Group website."
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="text-3xl font-extrabold tracking-tight">Terms of Use</h1>
+    <p class="mt-2 text-[0.95rem] text-slate-700">Last updated: November 4, 2026</p>
+    <div class="prose-links mt-4 space-y-4 leading-relaxed text-slate-800">
+      <p>
+        This website is operated by {SITE_TITLE}. By using it, you agree to these
+        terms. If you do not agree, please do not use the site.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">What this site is for</h2>
+      <p>
+        We share information about meetups, community resources, and partner
+        organizations in Kitsap County. Content is provided for general information
+        only and is not professional, legal, medical, or financial advice.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Outside links</h2>
+      <p>
+        We link to outside websites and services (such as our Facebook Group,
+        partner organizations, and our fiscal sponsor). We do not control those
+        sites and are not responsible for their content, policies, or practices.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Respectful use</h2>
+      <p>
+        Do not misuse this site — including attempting to disrupt it, harvest
+        personal information from it, or misrepresent your affiliation with our
+        group. Event photos are governed by our <a href="/photo-notice">photo notice</a>.
+      </p>
+      <h2 class="pt-2 text-xl font-bold text-slate-900">Changes</h2>
+      <p>
+        We may update these terms as the site grows. Material changes will be noted
+        here with a new date. Questions? Email
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

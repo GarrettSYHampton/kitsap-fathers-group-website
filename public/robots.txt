@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.kitsapfathersgroup.org/sitemap-index.xml
