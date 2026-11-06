@@ -1,88 +1,307 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { FACEBOOK_GROUP_URL } from '../consts';
+import {
+  CONTACT_EMAIL,
+  FACEBOOK_GROUP_URL,
+  SPONSOR_DISCLOSURE,
+  FISCAL_SPONSOR_DONATE_URL,
+  SUPPORT_BUTTON_LABEL,
+  EMAIL_SIGNUP_ACTION_URL,
+  EMAIL_SIGNUP_EMAIL_FIELD,
+} from '../consts';
+
+// All homepage copy lives in src/content/homepage/index.md; event dates
+// come from src/content/events/*.md — nothing date-like is hard-coded here.
+const homepageEntries = await getCollection('homepage');
+const homepage =
+  homepageEntries.find((entry) => entry.id.replace(/\.md$/, '') === 'index') ??
+  homepageEntries[0];
+if (!homepage) {
+  throw new Error('Homepage content missing: add src/content/homepage/index.md');
+}
+const copy = homepage.data;
+
+interface HomePath {
+  title: string;
+  description: string;
+  href: string;
+  linkLabel: string;
+}
+const paths = (copy.paths ?? []) as HomePath[];
+
+// Next 3 events for the preview; full feed + ordering live on /events.
+const allEvents = await getCollection('events');
+const upcoming = [...allEvents].sort((a, b) => a.id.localeCompare(b.id)).slice(0, 3);
+
+const emailReady = EMAIL_SIGNUP_ACTION_URL.length > 0;
+const sponsorLinkReady = FISCAL_SPONSOR_DONATE_URL.length > 0;
+
+function isExternal(href: string): boolean {
+  return href.startsWith('http://') || href.startsWith('https://');
+}
 ---
 
 <BaseLayout
   title="Home"
   description="Kitsap Fathers Group — meetups, local resources, and community for dads across Kitsap County."
 >
+  {/* Hero — compact so the three quick actions fit within one mobile scroll. */}
   <div class="bg-brand-900 text-white">
-    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
-      <h1 class="max-w-2xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
-        Kitsap dads, stronger together.
+    <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
+      <p class="text-[0.95rem] font-semibold text-brand-100">{copy.heroEyebrow}</p>
+      <h1 class="mt-2 max-w-2xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+        {copy.heroTitle}
       </h1>
-      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-brand-100">
-        We help fathers across Kitsap County find community, practical resources, and
-        low-key ways to get involved — from weekend meetups to trusted local referrals.
+      <p class="mt-3 max-w-2xl text-lg leading-relaxed text-brand-100">
+        {copy.heroSubtitle}
       </p>
-      <p class="mt-6 flex flex-col gap-3 sm:flex-row">
+      <p class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <a
-          href="/events"
-          class="inline-block rounded-md bg-white px-5 py-3 text-center font-bold text-brand-900 hover:bg-brand-100"
+          href="#upcoming"
+          class="inline-block min-h-[44px] rounded-md bg-white px-5 py-3 text-center font-bold text-brand-900 hover:bg-brand-100 focus-visible:outline-white"
         >
-          See upcoming events
+          {paths[0]?.linkLabel ?? 'See upcoming meetups'}
         </a>
         <a
-          href="/resources"
-          class="inline-block rounded-md border-2 border-white px-5 py-3 text-center font-bold text-white hover:bg-white/10"
+          href="#email"
+          class="inline-block min-h-[44px] rounded-md border-2 border-white px-5 py-3 text-center font-bold text-white hover:bg-white/10 focus-visible:outline-white"
         >
-          Browse resources
+          {copy.emailCtaLabel}
+        </a>
+        <a
+          href={FACEBOOK_GROUP_URL}
+          target="_blank"
+          rel="noopener"
+          class="inline-block min-h-[44px] rounded-md border-2 border-white px-5 py-3 text-center font-bold text-white hover:bg-white/10 focus-visible:outline-white"
+        >
+          {copy.facebookButtonLabel} <span aria-hidden="true">↗</span>
+          <span class="sr-only">(opens in a new tab)</span>
         </a>
       </p>
     </div>
   </div>
 
   <div class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-    <section aria-labelledby="what-we-do" class="prose-links">
-      <h2 id="what-we-do" class="text-2xl font-bold tracking-tight text-slate-900">
-        What we do
+    {/* Three paths */}
+    <section aria-labelledby="paths-heading">
+      <h2 id="paths-heading" class="text-2xl font-bold tracking-tight text-slate-900">
+        Where to start
       </h2>
-      <dl class="mt-6 grid gap-6 sm:grid-cols-3">
-        <div class="border-t-4 border-brand-800 pt-4">
-          <dt class="text-lg font-bold text-slate-900">Meet up</dt>
-          <dd class="mt-2 leading-relaxed text-slate-800">
-            Family-friendly gatherings and dads&apos; nights out around Bremerton, Port
-            Orchard, Silverdale, and beyond. <a href="/events">Find a meetup</a>.
-          </dd>
-        </div>
-        <div class="border-t-4 border-brand-800 pt-4">
-          <dt class="text-lg font-bold text-slate-900">Share resources</dt>
-          <dd class="mt-2 leading-relaxed text-slate-800">
-            A short list of vetted local help — housing, jobs, parenting, and family
-            activities. <a href="/resources">Browse resources</a>.
-          </dd>
-        </div>
-        <div class="border-t-4 border-brand-800 pt-4">
-          <dt class="text-lg font-bold text-slate-900">Connect dads</dt>
-          <dd class="mt-2 leading-relaxed text-slate-800">
-            Our Facebook Group is where day-to-day conversation happens.
-            <a href={FACEBOOK_GROUP_URL} target="_blank" rel="noopener">
-              Join the Facebook Group<span class="sr-only"> (opens in a new tab)</span>
-            </a>.
-          </dd>
-        </div>
-      </dl>
+      <ol class="mt-2 divide-y divide-slate-200">
+        {
+          paths.map((path, index) => (
+            <li>
+              <a
+                href={path.href}
+                class="group flex gap-4 py-5 sm:items-baseline"
+              >
+                <span
+                  aria-hidden="true"
+                  class="text-xl font-extrabold tabular-nums text-brand-800"
+                >
+                  {index + 1}
+                </span>
+                <span>
+                  <span class="block text-lg font-bold text-slate-900 group-hover:underline group-focus-visible:underline">
+                    {path.title}
+                  </span>
+                  <span class="mt-1 block leading-relaxed text-slate-800">
+                    {path.description}
+                  </span>
+                  <span class="mt-1 block font-semibold text-brand-800 group-hover:underline">
+                    {path.linkLabel} <span aria-hidden="true">→</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
     </section>
 
-    <section aria-labelledby="get-involved" class="prose-links mt-12">
-      <h2 id="get-involved" class="text-2xl font-bold tracking-tight text-slate-900">
-        Get involved
+    {/* Next 3 events preview */}
+    <section aria-labelledby="upcoming-heading" id="upcoming" class="mt-12 scroll-mt-4">
+      <h2 id="upcoming-heading" class="text-2xl font-bold tracking-tight text-slate-900">
+        {copy.eventsHeading}
       </h2>
-      <ul class="mt-4 space-y-3 leading-relaxed text-slate-800">
-        <li>
-          <a href="/volunteer" class="font-semibold">Volunteer a little time</a>
-          — micro-roles like greeting at the door or sharing photos, no big commitment.
-        </li>
-        <li>
-          <a href="/partners" class="font-semibold">Meet our community partners</a>
-          — local organizations we work alongside, from KCR to the YMCA.
-        </li>
-        <li>
-          <a href="/support" class="font-semibold">Support the group</a>
-          — contributions go through our fiscal sponsor, with full disclosure.
-        </li>
-      </ul>
+      {
+        upcoming.length === 0 ? (
+          <p class="prose-links mt-3 max-w-2xl leading-relaxed text-slate-800">
+            {copy.eventsEmpty}{' '}
+            <a href={FACEBOOK_GROUP_URL} target="_blank" rel="noopener">
+              Facebook Group<span class="sr-only"> (opens in a new tab)</span>
+            </a>.
+          </p>
+        ) : (
+          <>
+            <ul class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {upcoming.map((event) => (
+                <li class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                  <h3 class="text-lg font-bold leading-snug">{event.data.title}</h3>
+                  {event.data.description && (
+                    <p class="mt-2 leading-relaxed text-slate-800">{event.data.description}</p>
+                  )}
+                  <dl class="mt-3 space-y-1 text-[0.95rem] text-slate-800">
+                    {event.data.date && (
+                      <div class="flex gap-2">
+                        <dt class="font-semibold">Date:</dt>
+                        <dd>{event.data.date}</dd>
+                      </div>
+                    )}
+                    {event.data.location && (
+                      <div class="flex gap-2">
+                        <dt class="font-semibold">Location:</dt>
+                        <dd>{event.data.location}</dd>
+                      </div>
+                    )}
+                    <div class="flex gap-2">
+                      <dt class="font-semibold">RSVP:</dt>
+                      <dd class="prose-links">
+                        {event.data.rsvpUrl ? (
+                          <a
+                            href={event.data.rsvpUrl}
+                            target={isExternal(event.data.rsvpUrl) ? '_blank' : undefined}
+                            rel={isExternal(event.data.rsvpUrl) ? 'noopener' : undefined}
+                          >
+                            {event.data.rsvpLabel ?? 'RSVP / details'}
+                            {isExternal(event.data.rsvpUrl) && (
+                              <span class="sr-only"> (opens in a new tab)</span>
+                            )}
+                          </a>
+                        ) : event.data.rsvpNote ? (
+                          <span>{event.data.rsvpNote}</span>
+                        ) : (
+                          <a href={FACEBOOK_GROUP_URL} target="_blank" rel="noopener">
+                            Details in the Facebook Group
+                            <span class="sr-only"> (opens in a new tab)</span>
+                          </a>
+                        )}
+                      </dd>
+                    </div>
+                  </dl>
+                </li>
+              ))}
+            </ul>
+            <p class="prose-links mt-4 font-semibold">
+              <a href="/events">
+                See all events <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          </>
+        )
+      }
+    </section>
+
+    {/* Email signup */}
+    <section
+      aria-labelledby="email-heading"
+      id="email"
+      class="mt-12 scroll-mt-4 rounded-lg border border-slate-200 bg-slate-50 p-6 sm:p-8"
+    >
+      <h2 id="email-heading" class="text-2xl font-bold tracking-tight text-slate-900">
+        {copy.emailHeading}
+      </h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-slate-800">{copy.emailIntro}</p>
+      <p class="mt-2 max-w-2xl font-semibold leading-relaxed text-slate-900">
+        {copy.emailFrequency}
+      </p>
+      {
+        emailReady ? (
+          <form
+            action={EMAIL_SIGNUP_ACTION_URL}
+            method="post"
+            class="mt-5 flex max-w-xl flex-col gap-3 sm:flex-row"
+          >
+            <label for="email-signup-email" class="sr-only">
+              Email address
+            </label>
+            <input
+              id="email-signup-email"
+              name={EMAIL_SIGNUP_EMAIL_FIELD}
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="you@example.com"
+              class="min-h-[44px] flex-1 rounded-md border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-500"
+            />
+            <button
+              type="submit"
+              class="min-h-[44px] rounded-md bg-brand-800 px-5 py-3 font-bold text-white hover:bg-brand-900"
+            >
+              {copy.emailCtaLabel}
+            </button>
+          </form>
+        ) : (
+          <div class="mt-5">
+            <p class="max-w-2xl leading-relaxed text-slate-800">{copy.emailPendingNote}</p>
+            <p class="mt-3">
+              <a
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Join the email list')}`}
+                class="inline-block min-h-[44px] rounded-md bg-brand-800 px-5 py-3 font-bold text-white hover:bg-brand-900"
+              >
+                Email us to join the list
+              </a>
+            </p>
+          </div>
+        )
+      }
+      <p class="prose-links mt-4 max-w-2xl text-sm leading-relaxed text-slate-800">
+        We use your email only for group updates. See our{' '}
+        <a href="/privacy">Privacy Policy</a>.
+      </p>
+    </section>
+
+    {/* Facebook Group */}
+    <section
+      aria-labelledby="facebook-heading"
+      class="mt-12 rounded-lg bg-brand-900 p-6 text-white sm:p-8"
+    >
+      <h2 id="facebook-heading" class="text-2xl font-bold tracking-tight">
+        {copy.facebookHeading}
+      </h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-brand-100">{copy.facebookBody}</p>
+      <p class="mt-5">
+        <a
+          href={FACEBOOK_GROUP_URL}
+          target="_blank"
+          rel="noopener"
+          class="inline-block min-h-[44px] rounded-md bg-white px-5 py-3 font-bold text-brand-900 hover:bg-brand-100 focus-visible:outline-white"
+        >
+          {copy.facebookButtonLabel} <span aria-hidden="true">↗</span>
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </p>
+    </section>
+
+    {/* Support via fiscal sponsor */}
+    <section aria-labelledby="support-heading" class="prose-links mt-12">
+      <h2 id="support-heading" class="text-2xl font-bold tracking-tight text-slate-900">
+        {copy.supportHeading}
+      </h2>
+      <p class="mt-3 max-w-2xl leading-relaxed text-slate-800">{copy.supportBody}</p>
+      <p class="mt-4">
+        {
+          sponsorLinkReady ? (
+            <a
+              href={FISCAL_SPONSOR_DONATE_URL}
+              target="_blank"
+              rel="noopener"
+              class="inline-block min-h-[44px] rounded-md bg-brand-800 px-5 py-3 font-bold text-white no-underline hover:bg-brand-900"
+            >
+              {SUPPORT_BUTTON_LABEL} <span aria-hidden="true">↗</span>
+              <span class="sr-only"> (opens in a new tab)</span>
+            </a>
+          ) : (
+            <a href="/support" class="font-semibold">
+              More about supporting the group <span aria-hidden="true">→</span>
+            </a>
+          )
+        }
+      </p>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-800">
+        <span class="font-semibold">Disclosure:</span> {SPONSOR_DISCLOSURE}
+      </p>
     </section>
   </div>
 </BaseLayout>

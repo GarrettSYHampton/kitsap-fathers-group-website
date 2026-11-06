@@ -16,4 +16,11 @@ const partners = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/partners' }),
 });
 
-export const collections = { events, resources, partners };
+// Homepage (KFGW-4): single `index.md` entry holding the home page's
+// editable copy blocks (hero, paths, email signup, support blurb) so
+// founders edit Markdown, not JSX. Dates always live in `events/`.
+const homepage = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/homepage' }),
+});
+
+export const collections = { events, resources, partners, homepage };

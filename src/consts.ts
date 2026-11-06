@@ -10,6 +10,12 @@ export const FACEBOOK_GROUP_URL = 'https://www.facebook.com/groups/kitsapfathers
 export const FISCAL_SPONSOR_NAME = 'FISCAL_SPONSOR_NAME';
 export const FISCAL_SPONSOR_DONATE_URL = '';
 export const SUPPORT_BUTTON_LABEL = 'Support via our fiscal sponsor';
+
+// Email signup (KFGW-4): paste the Brevo/Mailchimp hosted-form POST URL here
+// when the provider account is ready. While empty, the homepage email
+// section falls back to a "email us to join" link instead of a dead form.
+export const EMAIL_SIGNUP_ACTION_URL = '';
+export const EMAIL_SIGNUP_EMAIL_FIELD = 'EMAIL';
 export const SPONSOR_DISCLOSURE =
   `Contributions are received by ${FISCAL_SPONSOR_NAME}, our fiscal sponsor; ` +
   `any tax deductibility is through ${FISCAL_SPONSOR_NAME}, not through Kitsap Fathers Group directly.`;
